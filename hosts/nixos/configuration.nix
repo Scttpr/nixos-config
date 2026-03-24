@@ -12,6 +12,7 @@
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
       trusted-users = [ "root" ];
+      extra-sandbox-paths = [ "/run/systemd/resolve" ];
     };
     gc = {
       automatic = true;
@@ -24,7 +25,6 @@
   boot = {
     loader = {
       systemd-boot.enable = true;
-      systemd-boot.configurationLimit = 10;
       efi.canTouchEfiVariables = true;
     };
 
@@ -74,7 +74,6 @@
       "kernel.perf_event_paranoid" = 3;
       "kernel.yama.ptrace_scope" = 2;
       "kernel.unprivileged_bpf_disabled" = 1;
-      "kernel.unprivileged_userns_clone" = 1;
       "vm.swappiness" = 10;
       "vm.mmap_rnd_bits" = 32;
       "vm.mmap_rnd_compat_bits" = 16;
@@ -236,23 +235,11 @@
   environment.shellInit = "umask 077";
   systemd.coredump.extraConfig = "Storage=none";
 
-  # ── Audit ──
-  security.auditd.enable = true;
-  security.audit = {
-    enable = true;
-    rules = [
-      "-a exit,always -F arch=b64 -S execve -k exec"
-      "-w /etc/shadow -p wa -k shadow"
-      "-w /etc/passwd -p wa -k passwd"
-    ];
-  };
-
   # ── USBGuard ──
   services.usbguard = {
     enable = true;
     presentDevicePolicy = "allow";
     insertedDevicePolicy = "apply-policy";
-    rules = null;
   };
 
   # ── Proc hidepid ──
@@ -330,9 +317,6 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-  # ── Backlight ──
-  hardware.acpilight.enable = true;
-
   # ── Power management ──
   services.tlp = {
     enable = true;
@@ -365,17 +349,13 @@
   users.users.scttpr = {
     isNormalUser = true;
     description = "scttpr";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "input" ];
   };
 
   # ── XDG portal ──
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal-gtk
-    ];
-  };
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
+  ];
 
   # ── Keyring ──
   services.gnome.gnome-keyring.enable = true;
@@ -388,7 +368,6 @@
   # System-level packages only — user packages go in home-manager
   environment.systemPackages = with pkgs; [
     wget
-    git
     neovim
     libva-utils
   ];

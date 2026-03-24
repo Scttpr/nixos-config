@@ -23,7 +23,10 @@
         Cryptomining = true;
         Fingerprinting = true;
       };
-      EncryptedMediaExtensions.Locked = true;
+      EncryptedMediaExtensions = {
+        Enabled = true;
+        Locked = true;
+      };
       PopupBlocking.Default = true;
       SanitizeOnShutdown = {
         Cache = true;
@@ -79,9 +82,6 @@
       ];
 
       settings = {
-        # Privacy
-        "privacy.trackingprotection.enabled" = true;
-        "privacy.trackingprotection.socialtracking.enabled" = true;
         # WebRTC: restrict to default interface only (prevents local IP enumeration
         # while still allowing direct peer connections — no_host is omitted because
         # it forces relay-only, causing lag/freezes in Google Meet)
@@ -92,12 +92,6 @@
         "network.dns.disablePrefetch" = true;
         "network.prefetch-next" = false;
         "network.predictor.enabled" = false;
-
-        # Disable beacon (analytics sent on page unload)
-        "beacon.enabled" = false;
-
-        # Disable battery API (fingerprinting)
-        "dom.battery.enabled" = false;
 
         # Block autoplay
         "media.autoplay.default" = 5;
@@ -137,15 +131,12 @@
         "browser.newtabpage.activity-stream.feeds.telemetry" = false;
         "browser.newtabpage.activity-stream.telemetry" = false;
 
-        # Disable Pocket
-        "extensions.pocket.enabled" = false;
+        # HTTPS-only
+        "dom.security.https_only_mode" = true;
 
         # Anti-fingerprinting
         "privacy.resistFingerprinting" = true;
 
-        # HTTPS-only
-        "dom.security.https_only_mode" = true;
-        "dom.security.https_only_mode_ever_enabled" = true;
       };
     };
   };

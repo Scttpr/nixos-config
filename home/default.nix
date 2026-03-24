@@ -19,7 +19,6 @@
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     LIBVA_DRIVER_NAME = "radeonsi";
-    MOZ_DMA_BUF = "1";
   };
 
   fonts.fontconfig.enable = true;

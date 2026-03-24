@@ -26,7 +26,6 @@
       env = [
         "XCURSOR_SIZE, 24"
         "XCURSOR_THEME, phinger-cursors-light"
-        "QT_QPA_PLATFORMTHEME, qt5ct"
       ];
 
       # ── Input ──
@@ -50,7 +49,6 @@
         "col.active_border" = "rgba(ffffffff)";
         "col.inactive_border" = "rgba(303030ff)";
         layout = "dwindle";
-        allow_tearing = false;
       };
 
       decoration = {
