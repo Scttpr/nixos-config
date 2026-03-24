@@ -159,6 +159,13 @@
     ];
   };
 
+  # ── Proc hidepid ──
+  fileSystems."/proc" = {
+    device = "proc";
+    fsType = "proc";
+    options = [ "hidepid=2" "gid=${toString config.users.groups.wheel.gid}" ];
+  };
+
   # ── SSD TRIM ──
   services.fstrim = {
     enable = true;
