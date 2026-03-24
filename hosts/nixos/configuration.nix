@@ -130,6 +130,8 @@
       '';
     };
     pam.services.greetd.enableGnomeKeyring = true;
+    pam.services.greetd.logFailures = true;
+    pam.services.sudo.logFailures = true;
   };
 
   # ── AppArmor ──
