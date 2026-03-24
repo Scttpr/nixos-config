@@ -132,6 +132,13 @@
     pam.services.greetd.enableGnomeKeyring = true;
   };
 
+  # ── AppArmor ──
+  security.apparmor = {
+    enable = true;
+    packages = [ pkgs.apparmor-profiles ];
+    killUnconfinedConfinables = false;
+  };
+
   # Disable core dumps
   security.pam.loginLimits = [
     { domain = "*"; type = "hard"; item = "core"; value = "0"; }
