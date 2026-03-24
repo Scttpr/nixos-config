@@ -6,19 +6,26 @@
 
     settings = {
       # ── Monitor ──
-      monitor = [ ", preferred, auto, 1" ];
+      monitor = [
+        "DP-10, 1920x1080@60, 0x0, 1"
+        "DP-8, 1920x1080@60, 1920x0, 1"
+        "eDP-1, 1920x1200@60, 960x1080, 1"
+        ", preferred, auto, 1"   # fallback for portable / hotplug
+      ];
 
       # ── Startup ──
       exec-once = [
+        "lxqt-policykit-agent"
         "waybar"
         "dunst"
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+        "wl-paste --type text --watch bash -c 'cliphist store -max-items 20; sleep 10 && wl-copy --clear'"
+        "wl-paste --type image --watch cliphist store -max-items 20"
       ];
 
       # ── Environment ──
       env = [
         "XCURSOR_SIZE, 24"
+        "XCURSOR_THEME, phinger-cursors-light"
         "QT_QPA_PLATFORMTHEME, qt5ct"
       ];
 
@@ -28,36 +35,36 @@
         follow_mouse = 1;
         touchpad = {
           natural_scroll = true;
-          tap-to-click = true;
+          "tap-to-click" = true;
           drag_lock = true;
+          disable_while_typing = true;
         };
         sensitivity = 0;
       };
 
       # ── Look & feel ──
       general = {
-        gaps_in = 4;
-        gaps_out = 8;
+        gaps_in = 2;
+        gaps_out = 4;
         border_size = 2;
-        "col.active_border" = "rgba(7aa2f7ff) rgba(7dcfffff) 45deg";
-        "col.inactive_border" = "rgba(414868ff)";
+        "col.active_border" = "rgba(ffffffff)";
+        "col.inactive_border" = "rgba(303030ff)";
         layout = "dwindle";
         allow_tearing = false;
       };
 
       decoration = {
-        rounding = 8;
+        rounding = 0;
         blur = {
           enabled = true;
           size = 5;
           passes = 2;
-          new_optimizations = true;
         };
         shadow = {
           enabled = true;
           range = 8;
           render_power = 2;
-          color = "rgba(1a1a2eee)";
+          color = "rgba(000000ee)";
         };
       };
 
@@ -85,11 +92,11 @@
       };
 
       # ── Window rules ──
-      windowrulev2 = [
-        "float, class:^(pavucontrol)$"
-        "float, class:^(nm-connection-editor)$"
-        "float, title:^(Open File)$"
-        "float, title:^(Save File)$"
+      windowrule = [
+        "float 1, match:class = pavucontrol"
+        "float 1, match:class = nm-connection-editor"
+        "float 1, match:title = Open File"
+        "float 1, match:title = Save File"
       ];
 
       # ── Keybindings ──
@@ -99,11 +106,12 @@
         # Core
         "$mod, Return, exec, kitty"
         "$mod, Q, killactive,"
-        "$mod, M, exit,"
+        "$mod SHIFT, M, exit,"
+        "$mod SHIFT, L, exec, loginctl lock-session"
         "$mod, V, togglefloating,"
         "$mod, D, exec, wofi --show drun"
         "$mod, P, pseudo,"
-        "$mod, J, togglesplit,"
+        "$mod, T, layoutmsg, togglesplit"
         "$mod, F, fullscreen, 0"
 
         # Screenshots
@@ -112,6 +120,8 @@
 
         # Clipboard history
         "$mod, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+        # Wipe clipboard history (e.g. after copying a password)
+        "$mod SHIFT, C, exec, cliphist wipe && notify-send 'Clipboard wiped'"
 
         # Focus
         "$mod, left, movefocus, l"
@@ -170,12 +180,13 @@
       bindel = [
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86MonoBrightnessUp, exec, light -A 5"
-        ", XF86MonoBrightnessDown, exec, light -U 5"
+        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ];
 
       bindl = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         ", XF86AudioPlay, exec, playerctl play-pause"
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPrev, exec, playerctl previous"

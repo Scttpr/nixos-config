@@ -8,37 +8,37 @@
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
 
-      # Tokyo Night Storm theme
-      foreground = "#c0caf5";
-      background = "#1a1b26";
-      selection_foreground = "#c0caf5";
-      selection_background = "#33467c";
-      cursor = "#c0caf5";
+      # Monochrome + semantic color
+      foreground = "#d4d4d4";
+      background = "#0a0a0a";
+      selection_foreground = "#0a0a0a";
+      selection_background = "#d4d4d4";
+      cursor = "#d4d4d4";
 
       # Black
-      color0 = "#15161e";
-      color8 = "#414868";
-      # Red
-      color1 = "#f7768e";
-      color9 = "#f7768e";
-      # Green
-      color2 = "#9ece6a";
-      color10 = "#9ece6a";
-      # Yellow
-      color3 = "#e0af68";
-      color11 = "#e0af68";
-      # Blue
-      color4 = "#7aa2f7";
-      color12 = "#7aa2f7";
-      # Magenta
-      color5 = "#bb9af7";
-      color13 = "#bb9af7";
-      # Cyan
-      color6 = "#7dcfff";
-      color14 = "#7dcfff";
+      color0 = "#0a0a0a";
+      color8 = "#5a5a5a";
+      # Red (errors)
+      color1 = "#e55561";
+      color9 = "#e55561";
+      # Green (success)
+      color2 = "#7ec480";
+      color10 = "#7ec480";
+      # Yellow (warnings)
+      color3 = "#e5a230";
+      color11 = "#e5a230";
+      # Blue (muted — rarely visible)
+      color4 = "#8a8a8a";
+      color12 = "#8a8a8a";
+      # Magenta (muted)
+      color5 = "#9a9a9a";
+      color13 = "#9a9a9a";
+      # Cyan (muted)
+      color6 = "#8a8a8a";
+      color14 = "#8a8a8a";
       # White
-      color7 = "#a9b1d6";
-      color15 = "#c0caf5";
+      color7 = "#d4d4d4";
+      color15 = "#ffffff";
 
       # Window
       window_padding_width = 8;

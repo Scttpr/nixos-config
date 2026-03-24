@@ -18,7 +18,10 @@
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."luks-fb537c4f-9db7-4bf0-a80d-b092a821c3bc".device = "/dev/disk/by-uuid/fb537c4f-9db7-4bf0-a80d-b092a821c3bc";
+  boot.initrd.luks.devices."luks-fb537c4f-9db7-4bf0-a80d-b092a821c3bc" = {
+    device = "/dev/disk/by-uuid/fb537c4f-9db7-4bf0-a80d-b092a821c3bc";
+    crypttabExtraOpts = [ "tpm2-device=auto" ];
+  };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/97ED-3299";

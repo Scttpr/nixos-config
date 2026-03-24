@@ -36,9 +36,9 @@
 
       network = {
         format-wifi = "󰤨  {essid}";
-        format-ethernet = "󰈀  {ipaddr}";
+        format-ethernet = "󰈀  Wired";
         format-disconnected = "󰤭  Off";
-        tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+        tooltip-format = "{ifname}: {bandwidthTotalBytes}";
       };
 
       pulseaudio = {
@@ -63,23 +63,23 @@
       }
 
       window#waybar {
-        background: rgba(26, 27, 38, 0.9);
-        color: #c0caf5;
+        background: rgba(10, 10, 10, 0.9);
+        color: #d4d4d4;
       }
 
       #workspaces button {
         padding: 0 8px;
-        color: #565f89;
+        color: #5a5a5a;
         border: none;
         border-radius: 0;
       }
 
       #workspaces button.active {
-        color: #7aa2f7;
+        color: #ffffff;
       }
 
       #workspaces button:hover {
-        background: rgba(122, 162, 247, 0.15);
+        background: rgba(255, 255, 255, 0.08);
       }
 
       #clock,
@@ -91,19 +91,19 @@
       }
 
       #battery.warning {
-        color: #e0af68;
+        color: #e5a230;
       }
 
       #battery.critical {
-        color: #f7768e;
+        color: #e55561;
       }
 
       #network.disconnected {
-        color: #565f89;
+        color: #5a5a5a;
       }
 
       #pulseaudio.muted {
-        color: #565f89;
+        color: #5a5a5a;
       }
     '';
   };
