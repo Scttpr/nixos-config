@@ -146,6 +146,17 @@
   environment.shellInit = "umask 077";
   systemd.coredump.extraConfig = "Storage=none";
 
+  # ── Audit ──
+  security.auditd.enable = true;
+  security.audit = {
+    enable = true;
+    rules = [
+      "-a exit,always -F arch=b64 -S execve -k exec"
+      "-w /etc/shadow -p wa -k shadow"
+      "-w /etc/passwd -p wa -k passwd"
+    ];
+  };
+
   # ── SSD TRIM ──
   services.fstrim = {
     enable = true;
