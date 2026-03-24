@@ -247,6 +247,14 @@
     ];
   };
 
+  # ── USBGuard ──
+  services.usbguard = {
+    enable = true;
+    presentDevicePolicy = "allow";
+    insertedDevicePolicy = "apply-policy";
+    rules = null;
+  };
+
   # ── Proc hidepid ──
   fileSystems."/proc" = {
     device = "proc";
