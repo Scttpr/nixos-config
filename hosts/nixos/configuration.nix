@@ -82,7 +82,7 @@
       "dev.tty.ldisc_autoload" = 0;
     };
 
-    tmp.useTmpfs = true;
+    # /tmp mount hardened via fileSystems below
   };
 
   # ── Network ──
@@ -139,7 +139,7 @@
     sudo = {
       execWheelOnly = true;
       extraConfig = ''
-        Defaults timestamp_timeout=15
+        Defaults timestamp_timeout=5
         Defaults passwd_timeout=1
         Defaults env_reset
       '';
@@ -286,6 +286,13 @@
       allow id 10ab:9309 serial "" name "" hash "whHOIdQrSVT8iQWv1Bg5SSP7oI4SXttsMYptqf04kXs=" parent-hash "HtK/V9+iwK2EoOneULC1IMFJ2IxQr0rL9Q+N6BDFNak=" via-port "1-3.1" with-interface { e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 } with-connect-type "not used"
       allow id 2ce3:9563 serial "" name "EMV Smartcard Reader" hash "SOxag+v/yr7SA04eNCa88HFqD0IhMbIt2Vk0jDIs21A=" parent-hash "HtK/V9+iwK2EoOneULC1IMFJ2IxQr0rL9Q+N6BDFNak=" via-port "1-3.2" with-interface 0b:00:00 with-connect-type "not used"
     '';
+  };
+
+  # ── Tmpfs hardening ──
+  fileSystems."/tmp" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "defaults" "nosuid" "nodev" "mode=1777" "size=50%" ];
   };
 
   # ── Proc hidepid ──
