@@ -1,11 +1,14 @@
 { config, pkgs, ... }:
 
+let
+  wallpaper = "/home/scttpr/.config/nixos/wallpaper.png";
+in
 {
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = [ "${config.home.homeDirectory}/.config/nixos/wallpaper.png" ];
-      wallpaper = [ ", ${config.home.homeDirectory}/.config/nixos/wallpaper.png" ];
+      preload = wallpaper;
+      wallpaper = ", ${wallpaper}";
       splash = false;
     };
   };

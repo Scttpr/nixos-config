@@ -7,10 +7,8 @@
     settings = {
       # ── Monitor ──
       monitor = [
-        "DP-10, 1920x1080@60, 0x0, 1"
-        "DP-8, 1920x1080@60, 1920x0, 1"
         "eDP-1, 1920x1200@60, 960x1080, 1"
-        ", preferred, auto, 1"   # fallback for portable / hotplug
+        ", 1920x1080@60, auto, 1"
       ];
 
       # ── Startup ──
