@@ -7,12 +7,12 @@
     killUnconfinedConfinables = false;
     policies = {
       thunar = {
-        state = "complain";
+        state = "enforce";
         profile = ''
           abi <abi/3.0>,
           include <tunables/global>
 
-          profile thunar ${pkgs.thunar}/bin/thunar flags=(complain) {
+          profile thunar ${pkgs.thunar}/bin/thunar flags=(enforce) {
             include <abstractions/base>
             include <abstractions/gtk>
             include <abstractions/fonts>
@@ -37,12 +37,12 @@
         '';
       };
       mpv = {
-        state = "complain";
+        state = "enforce";
         profile = ''
           abi <abi/3.0>,
           include <tunables/global>
 
-          profile mpv ${pkgs.mpv}/bin/mpv flags=(complain) {
+          profile mpv ${pkgs.mpv}/bin/mpv flags=(enforce) {
             include <abstractions/base>
             include <abstractions/audio>
             include <abstractions/fonts>
@@ -68,12 +68,12 @@
         '';
       };
       imv = {
-        state = "complain";
+        state = "enforce";
         profile = ''
           abi <abi/3.0>,
           include <tunables/global>
 
-          profile imv ${pkgs.imv}/bin/imv flags=(complain) {
+          profile imv ${pkgs.imv}/bin/imv flags=(enforce) {
             include <abstractions/base>
             include <abstractions/fonts>
             include <abstractions/freedesktop.org>
