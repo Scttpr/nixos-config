@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, rtk-pkg, ... }:
 
 {
   imports = [
@@ -19,6 +19,7 @@
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     LIBVA_DRIVER_NAME = "radeonsi";
+    RTK_TELEMETRY_DISABLED = "1";
   };
 
   fonts.fontconfig.enable = true;
@@ -88,12 +89,79 @@
     claude-code
 
     # CLI tools
+    jq
     ripgrep
     fastfetch
+    rtk-pkg
   ];
 
   # Let home-manager manage itself
   programs.home-manager.enable = true;
+
+  # ── Claude Code ──
+  home.file.".claude/settings.json".text = builtins.toJSON {
+    hooks = {
+      PreToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type = "command";
+              command = "/home/scttpr/.claude/hooks/rtk-rewrite.sh";
+            }
+          ];
+        }
+      ];
+    };
+    permissions = {
+      allow = [
+        "Read"
+        "Edit"
+        "Bash(git status *)"
+        "Bash(git diff *)"
+        "Bash(git log *)"
+        "Bash(git add *)"
+        "Bash(git commit *)"
+        "Bash(git branch *)"
+        "Bash(git checkout *)"
+        "Bash(git switch *)"
+        "Bash(git stash *)"
+        "Bash(git merge *)"
+        "Bash(git rebase *)"
+        "Bash(nix *)"
+        "Bash(nix-shell *)"
+        "Bash(nixos-rebuild *)"
+        "Bash(rtk *)"
+        "Bash(ls *)"
+        "Bash(cargo build *)"
+        "Bash(cargo test *)"
+        "Bash(cargo check *)"
+        "Bash(cargo clippy *)"
+        "Bash(npm run *)"
+        "Bash(npm test *)"
+        "Bash(npm install *)"
+        "WebFetch(domain:github.com)"
+        "WebFetch(domain:raw.githubusercontent.com)"
+      ];
+      deny = [
+        "Bash(git push --force *)"
+        "Bash(git reset --hard *)"
+        "Bash(git clean -f *)"
+        "Bash(rm -rf *)"
+        "Bash(chmod 777 *)"
+        "Bash(curl * | sh)"
+        "Bash(curl * | bash)"
+        "Bash(wget * | sh)"
+        "Bash(eval *)"
+      ];
+    };
+    attribution = {
+      enabled = false;
+    };
+  };
+
+  home.file.".claude/CLAUDE.md".source = ./claude/CLAUDE.md;
+  home.file.".claude/RTK.md".source = ./claude/RTK.md;
 
   # ── Fastfetch ──
   xdg.configFile."fastfetch/config.jsonc".text = builtins.toJSON {
@@ -224,7 +292,7 @@
   programs.starship = {
     enable = true;
     settings = {
-      format = "$username$hostname$directory$git_branch$git_status$nix_shell$character";
+      format = "$username$hostname$directory$git_branch$git_status$nix_shell$env_var_DIRENV_DIR$character";
       username = {
         show_always = true;
         style_user = "white";
@@ -255,17 +323,27 @@
         style = "dimmed white";
         format = "[nix]($style) ";
       };
+      env_var.DIRENV_DIR = {
+        style = "dimmed white";
+        format = "[direnv]($style) ";
+      };
     };
   };
 
   # Git
   programs.git = {
     enable = true;
+    signing = {
+      key = "~/.ssh/github.pub";
+      signByDefault = true;
+      format = "ssh";
+    };
     settings = {
       user.name = "scttpr";
       user.email = "git.reformer354@passmail.net";
       init.defaultBranch = "main";
       pull.rebase = true;
+      tag.gpgsign = true;
     };
   };
 
