@@ -15,6 +15,7 @@
     ./git.nix
     ./cli.nix
     ./claude.nix
+    ./taskwarrior.nix
   ];
 
   home.username = "scttpr";
@@ -61,6 +62,8 @@
 
   dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = "prefer-dark";
+    icon-theme = "Papirus-Dark";
+    gtk-theme = "Adwaita-dark";
   };
 
   home.packages = with pkgs; [
@@ -76,6 +79,10 @@
     slurp
     wl-clipboard
     cliphist
+
+    # Icons (needed in XDG_DATA_DIRS for wofi)
+    papirus-icon-theme
+    librsvg
 
     # File manager
     thunar
