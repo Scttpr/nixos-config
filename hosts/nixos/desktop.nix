@@ -19,13 +19,6 @@
     };
   };
 
-  # ── Plymouth ──
-  boot.plymouth = {
-    enable = true;
-    theme = "bgrt";
-  };
-  boot.kernelParams = [ "quiet" "splash" ];
-
   # ── Lid switch ──
   services.logind.settings.Login = {
     HandleLidSwitch = "lock";
