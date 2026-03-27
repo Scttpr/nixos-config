@@ -50,5 +50,93 @@
         }
       ];
     };
+
+    devShells.${system} = {
+
+      binanalysis = pkgs.mkShell {
+        packages = with pkgs; [
+          # disassembler
+          radare2
+
+          # debuggers / tracing
+          gdb
+          gef
+          strace
+          ltrace
+
+          # binary utilities
+          binutils
+          elfutils
+          patchelf
+          file
+          hexyl
+          xxd
+
+          # forensics / analysis
+          binwalk
+          yara
+          entropy
+
+          # network
+          wireshark-cli
+        ];
+
+        shellHook = ''
+          echo "binanalysis shell loaded"
+        '';
+      };
+
+      rust = pkgs.mkShell {
+        packages = with pkgs; [
+          rustc
+          cargo
+          rust-analyzer
+          clippy
+          rustfmt
+          cargo-watch
+          cargo-edit
+        ];
+
+        RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+
+        shellHook = ''
+          echo "rust shell loaded"
+        '';
+      };
+
+      hamradio = pkgs.mkShell {
+        packages = with pkgs; [
+          # sdr
+          sdrpp
+          rtl-sdr
+
+          # digital modes
+          wsjtx
+          fldigi
+
+          # packet / aprs
+          direwolf
+
+          # signal decoding
+          multimon-ng
+
+          # satellite
+          satdump
+          gpredict
+
+          # logging
+          adif-multitool
+          hamlib
+
+          # radio programming
+          chirp
+        ];
+
+        shellHook = ''
+          echo "hamradio shell loaded"
+        '';
+      };
+
+    };
   };
 }
