@@ -2,3 +2,7 @@ result
 .claude/
 docs/
 todo.txt
+*.md
+!home/claude/CLAUDE.md
+!home/claude/RTK.md
+*.txt
