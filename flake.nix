@@ -51,9 +51,11 @@
       ];
     };
 
-    devShells.${system} = {
+    devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
+      shellHook = ''echo "${name} shell loaded"'';
+    })) {
 
-      binanalysis = pkgs.mkShell {
+      binanalysis = {
         packages = with pkgs; [
           # disassembler
           radare2
@@ -80,13 +82,9 @@
           # network
           wireshark-cli
         ];
-
-        shellHook = ''
-          echo "binanalysis shell loaded"
-        '';
       };
 
-      rust = pkgs.mkShell {
+      rust = {
         packages = with pkgs; [
           rustc
           cargo
@@ -98,13 +96,9 @@
         ];
 
         RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
-
-        shellHook = ''
-          echo "rust shell loaded"
-        '';
       };
 
-      hamradio = pkgs.mkShell {
+      hamradio = {
         packages = with pkgs; [
           # sdr
           sdrpp
@@ -131,10 +125,15 @@
           # radio programming
           chirp
         ];
+      };
 
-        shellHook = ''
-          echo "hamradio shell loaded"
-        '';
+      llm = {
+        packages = with pkgs; [
+          ollama-cpu
+          aichat
+          python3
+          uv
+        ];
       };
 
     };
