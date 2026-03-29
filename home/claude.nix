@@ -14,6 +14,19 @@
           ];
         }
       ];
+      PostToolUse = [
+        {
+          matcher = "Write|Edit";
+          hooks = [
+            {
+              type = "command";
+              command = "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.nix) nix flake check --no-build 2>&1 | head -20 ;; esac; } || true";
+              timeout = 30;
+              statusMessage = "Checking nix flake...";
+            }
+          ];
+        }
+      ];
     };
     permissions = {
       allow = [
