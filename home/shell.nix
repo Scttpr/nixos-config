@@ -69,12 +69,12 @@
       username = {
         show_always = true;
         style_user = "white";
-        format = "[$user]($style)@";
+        format = "[$user]($style) ";
       };
       hostname = {
-        ssh_only = false;
+        ssh_only = true;
         style = "dimmed white";
-        format = "[$hostname]($style) ";
+        format = "[@$hostname]($style) ";
       };
       character = {
         success_symbol = "[→](white)";
