@@ -104,6 +104,9 @@
     ripgrep
     fastfetch
     rtk-pkg
+    taskwarrior-tui
+    gpg-tui
+    broot
   ];
 
   # Let home-manager manage itself
