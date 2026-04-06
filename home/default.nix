@@ -107,9 +107,17 @@
     taskwarrior-tui
     gpg-tui
     broot
+    glow
   ];
 
   # Let home-manager manage itself
+  programs.gpg.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
   programs.home-manager.enable = true;
 
   home.stateVersion = "25.11";
