@@ -102,7 +102,14 @@
         packages = with pkgs; [
           # sdr
           sdrpp
+          gqrx
           rtl-sdr
+
+          # rf analysis & reverse engineering
+          inspectrum
+          urh
+          rtl_433
+          gnuradio
 
           # digital modes
           wsjtx
