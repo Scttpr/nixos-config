@@ -32,6 +32,22 @@
     };
   };
 
+  # ── VPN (ProtonVPN via WireGuard) ──
+  # Start/stop manually: sudo systemctl start/stop wg-quick-protonvpn
+  networking.wg-quick.interfaces.protonvpn = {
+    autostart = false;
+    address = [ "<INTERFACE_ADDRESS>" ];
+    dns = [ "<INTERFACE_DNS>" ];
+    privateKeyFile = "/etc/wireguard/protonvpn-key";
+
+    peers = [{
+      publicKey = "<PEER_PUBLIC_KEY>";
+      endpoint = "<PEER_ENDPOINT>";
+      allowedIPs = [ "0.0.0.0/0" "::/0" ];
+      persistentKeepalive = 25;
+    }];
+  };
+
   # ── Encrypted DNS ──
   networking.networkmanager.dns = "systemd-resolved";
   services.resolved = {
