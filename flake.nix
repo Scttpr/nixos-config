@@ -19,9 +19,14 @@
       flake = false;
     };
 
+    spec-kit = {
+      url = "github:github/spec-kit";
+      flake = false;
+    };
+
   };
 
-  outputs = { self, nixpkgs, home-manager, firefox-addons, rtk, ... }:
+  outputs = { self, nixpkgs, home-manager, firefox-addons, rtk, spec-kit, ... }:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -33,27 +38,53 @@
       cargoLock.lockFile = "${rtk}/Cargo.lock";
       doCheck = false;
     };
-  in
-  {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        ./hosts/nixos/configuration.nix
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "bak";
-          home-manager.extraSpecialArgs = { inherit firefox-addons rtk-pkg; };
-          home-manager.users.scttpr = import ./home;
-        }
+    specify = pkgs.python3Packages.buildPythonApplication {
+      pname = "specify-cli";
+      version = "unstable";
+      src = spec-kit;
+      pyproject = true;
+      build-system = [ pkgs.python3Packages.hatchling ];
+      dependencies = with pkgs.python3Packages; [
+        typer
+        click
+        rich
+        platformdirs
+        readchar
+        pyyaml
+        packaging
+        pathspec
+        json5
       ];
+      doCheck = false;
     };
 
-    devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
-      shellHook = ''echo "${name} shell loaded"'';
-    })) {
+    flakePath = "/home/scttpr/.config/nixos";
+
+    vibe-init = pkgs.writeShellScriptBin "vibe-init" ''
+      LANG="$1"
+      DIR="''${2:-.}"
+
+      if [ -z "$LANG" ]; then
+        SHELL_REF="vibecoding"
+      else
+        SHELL_REF="vibecoding-$LANG"
+      fi
+
+      mkdir -p "$DIR"
+      echo "use flake \"${flakePath}#$SHELL_REF\"" > "$DIR/.envrc"
+      ${pkgs.direnv}/bin/direnv allow "$DIR"
+      echo "$SHELL_REF configured in $DIR"
+    '';
+
+    vibecodingPackages = with pkgs; [
+      direnv
+      nix-direnv
+      specify
+      vibe-init
+    ];
+
+    shellConfigs = {
 
       binanalysis = {
         packages = with pkgs; [
@@ -202,5 +233,38 @@
       };
 
     };
+
+    vibeShells = builtins.listToAttrs (map (name: {
+      name = "vibecoding-${name}";
+      value = let cfg = shellConfigs.${name}; in cfg // {
+        packages = vibecodingPackages ++ cfg.packages;
+      };
+    }) (builtins.attrNames shellConfigs));
+
+    allShells = shellConfigs // {
+      vibecoding = { packages = vibecodingPackages; };
+    } // vibeShells;
+
+  in
+  {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./hosts/nixos/configuration.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "bak";
+          home-manager.extraSpecialArgs = { inherit firefox-addons rtk-pkg; };
+          home-manager.users.scttpr = import ./home;
+        }
+      ];
+    };
+
+    devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
+      shellHook = ''echo "${name} shell loaded"'';
+    })) allShells;
   };
 }

@@ -63,7 +63,8 @@
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "rtk": "rtk"
+        "rtk": "rtk",
+        "spec-kit": "spec-kit"
       }
     },
     "rtk": {
@@ -79,6 +80,22 @@
       "original": {
         "owner": "rtk-ai",
         "repo": "rtk",
+        "type": "github"
+      }
+    },
+    "spec-kit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775255704,
+        "narHash": "sha256-jADNe95w+UgVYlQaQlcl6GlKGgUUhKtz5s/xVOOwYcg=",
+        "owner": "github",
+        "repo": "spec-kit",
+        "rev": "94ba857b78074024f095b08b45802e17d2bff653",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "repo": "spec-kit",
         "type": "github"
       }
     }
