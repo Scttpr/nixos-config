@@ -22,18 +22,6 @@
       "color.uda.priority.H" = "white bold";
       "color.uda.priority.M" = "white";
       "color.uda.priority.L" = "rgb444";
-
-      # Epic UDA
-      "uda.epic.type" = "string";
-      "uda.epic.label" = "Epic";
-
-      # Epic priority UDA
-      "uda.epic_priority.type" = "string";
-      "uda.epic_priority.label" = "Epic Priority";
-      "uda.epic_priority.values" = "H,M,L";
-      "urgency.uda.epic_priority.H.coefficient" = 6;
-      "urgency.uda.epic_priority.M.coefficient" = 3;
-      "urgency.uda.epic_priority.L.coefficient" = 1;
     };
   };
 }
