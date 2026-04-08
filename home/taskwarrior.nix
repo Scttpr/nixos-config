@@ -23,6 +23,11 @@
       "color.uda.priority.M" = "white";
       "color.uda.priority.L" = "rgb444";
 
+      # Domain UDA
+      "uda.domain.type" = "string";
+      "uda.domain.label" = "Domain";
+      "uda.domain.values" = "governance,identity,infra,appsec,detection,people,strategy";
+
       # Epic UDA
       "uda.epic.type" = "string";
       "uda.epic.label" = "Epic";
