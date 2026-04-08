@@ -248,8 +248,8 @@
   in
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
       modules = [
+        { nixpkgs.hostPlatform = system; }
         ./hosts/nixos/configuration.nix
 
         home-manager.nixosModules.home-manager
