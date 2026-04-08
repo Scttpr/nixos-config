@@ -14,6 +14,7 @@
       init.defaultBranch = "main";
       pull.rebase = true;
       tag.gpgsign = true;
+      core.editor = "nvim";
     };
   };
 }
