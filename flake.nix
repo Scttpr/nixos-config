@@ -248,10 +248,13 @@
 
   in
   {
+    nixosModules.hardening = import ./modules/hardening.nix;
+
     nixosConfigurations.p16s = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit user; };
       modules = [
         { nixpkgs.hostPlatform = system; }
+        self.nixosModules.hardening
         ./hosts/p16s/configuration.nix
 
         home-manager.nixosModules.home-manager

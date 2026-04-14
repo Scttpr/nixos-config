@@ -7,11 +7,13 @@ Follows nixpkgs-unstable. Wayland-first (Hyprland), monochrome aesthetic.
 
 ```
 flake.nix                           Flake entry point, dev shells, custom packages
+modules/
+  hardening.nix                     Reusable workstation hardening (importable via nixosModules.hardening)
 hosts/p16s/
   configuration.nix                 Boot, locale, GC, earlyoom, user account
   hardware-configuration.nix        Generated hardware scan (LUKS, AMD)
   hardware.nix                      GPU, bluetooth, TLP power management, SSD TRIM
-  security.nix                      Kernel hardening, sudo, PAM, sysctl, proc hidepid
+  security.nix                      Host-specific PAM config, enables hardening module
   apparmor.nix                      Enforce profiles for thunar, mpv, imv
   usbguard.nix                      USB device whitelist (hash-pinned)
   networking.nix                    NetworkManager, firewall, WireGuard VPN, encrypted DNS
@@ -30,6 +32,27 @@ home/
   hyprlock.nix / hyprpaper.nix      Lock screen and wallpaper
   dunst.nix / wofi.nix / mpv.nix    Notifications, launcher, media player
 ```
+
+## Hardening module
+
+The security hardening is extracted into a standalone NixOS module that can be imported independently:
+
+```nix
+{
+  inputs.nixos-scttpr.url = "github:scttpr/nixos";
+
+  outputs = { nixos-scttpr, ... }: {
+    nixosConfigurations.myhost = {
+      modules = [
+        nixos-scttpr.nixosModules.hardening
+        { modules.hardening.enable = true; }
+      ];
+    };
+  };
+}
+```
+
+This enables: kernel module blacklist, sysctl hardening (network + memory + process), proc hidepid, tmpfs hardening, core dump disabling, umask 077, and sudo lockdown. See `modules/hardening.nix` for details.
 
 ## Security
 

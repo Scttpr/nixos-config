@@ -33,13 +33,6 @@
     efi.canTouchEfiVariables = true;
   };
 
-  # ── Tmpfs hardening ──
-  fileSystems."/tmp" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-    options = [ "defaults" "nosuid" "nodev" "mode=1777" "size=50%" ];
-  };
-
   # ── OOM protection ──
   services.earlyoom = {
     enable = true;
