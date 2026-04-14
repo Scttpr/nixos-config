@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, user, ... }:
 
 {
   imports = [
@@ -69,15 +69,16 @@
   };
 
   # ── User ──
-  users.users.scttpr = {
+  users.users.${user} = {
     isNormalUser = true;
-    description = "scttpr";
+    description = user;
     extraGroups = [ "networkmanager" "wheel" "video" "input" ];
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "claude-code"
+      "obsidian"
     ];
 
   # System-level packages only — user packages go in home-manager

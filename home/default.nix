@@ -1,4 +1,4 @@
-{ config, pkgs, rtk-pkg, ... }:
+{ config, pkgs, rtk-pkg, user, ... }:
 
 {
   imports = [
@@ -18,8 +18,8 @@
     ./taskwarrior.nix
   ];
 
-  home.username = "scttpr";
-  home.homeDirectory = "/home/scttpr";
+  home.username = user;
+  home.homeDirectory = "/home/${user}";
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -96,8 +96,12 @@
     pavucontrol
     playerctl
 
+    # Utils
+    speedcrunch
+
     # Work
     claude-code
+    obsidian
 
     # CLI tools
     jq

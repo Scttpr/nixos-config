@@ -29,6 +29,7 @@
   outputs = { self, nixpkgs, home-manager, firefox-addons, rtk, spec-kit, ... }:
   let
     system = "x86_64-linux";
+    user = "scttpr";
     pkgs = nixpkgs.legacyPackages.${system};
 
     rtk-pkg = pkgs.rustPlatform.buildRustPackage {
@@ -59,7 +60,7 @@
       doCheck = false;
     };
 
-    flakePath = "/home/scttpr/.config/nixos";
+    flakePath = "/home/${user}/.config/nixos";
 
     vibe-init = pkgs.writeShellScriptBin "vibe-init" ''
       LANG="$1"
@@ -248,6 +249,7 @@
   in
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit user; };
       modules = [
         { nixpkgs.hostPlatform = system; }
         ./hosts/nixos/configuration.nix
@@ -257,11 +259,15 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "bak";
-          home-manager.extraSpecialArgs = { inherit firefox-addons rtk-pkg; };
-          home-manager.users.scttpr = import ./home;
+          home-manager.extraSpecialArgs = { inherit firefox-addons rtk-pkg user; };
+          home-manager.users.${user} = import ./home;
         }
       ];
     };
+
+    formatter.${system} = pkgs.nixfmt-rfc-style;
+
+    checks.${system}.build = self.nixosConfigurations.nixos.config.system.build.toplevel;
 
     devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
       shellHook = ''echo "${name} shell loaded"'';

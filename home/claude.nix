@@ -1,4 +1,4 @@
-{ ... }:
+{ user, ... }:
 
 {
   home.file.".claude/settings.json".text = builtins.toJSON {
@@ -9,7 +9,7 @@
           hooks = [
             {
               type = "command";
-              command = "/home/scttpr/.claude/hooks/rtk-rewrite.sh";
+              command = "/home/${user}/.claude/hooks/rtk-rewrite.sh";
             }
           ];
         }
