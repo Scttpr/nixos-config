@@ -35,10 +35,17 @@ max_x=$(echo "$acers" | jq '[.[] | .x + .width] | max')
 edp_y=$(echo "$acers" | jq '[.[] | .y + .height] | max')
 edp_x=$(( min_x + (max_x - min_x - edp_w) / 2 ))
 
+# Kill waybar before the swap to avoid zombie instances
+killall -q waybar || true
+
 # Apply all three monitor changes atomically
 hyprctl --batch "\
 keyword monitor $name_a,$res_a,${x_b}x${y_b},1 ; \
 keyword monitor $name_b,$res_b,${x_a}x${y_a},1 ; \
 keyword monitor eDP-1,${edp_w}x${edp_h}@${edp_rate},${edp_x}x${edp_y},1"
+
+# Restart waybar after monitors have settled
+sleep 0.5
+waybar &disown
 
 echo "Done."
