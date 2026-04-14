@@ -108,9 +108,6 @@
         # Disable location
         "geo.enabled" = false;
 
-        # DRM (needed for Netflix, Spotify, etc.)
-        "media.eme.enabled" = true;
-
         # Wayland rendering — reduce flickering
         "gfx.webrender.all" = true;
         "media.ffmpeg.vaapi.enabled" = true;
@@ -118,21 +115,6 @@
 
         # Disable new tab clutter
         "browser.newtabpage.enabled" = false;
-        "browser.newtabpage.activity-stream.showSponsored" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-
-        # Disable telemetry
-        "toolkit.telemetry.enabled" = false;
-        "toolkit.telemetry.unified" = false;
-        "toolkit.telemetry.archive.enabled" = false;
-        "datareporting.healthreport.uploadEnabled" = false;
-        "datareporting.policy.dataSubmissionEnabled" = false;
-        "browser.ping-centre.telemetry" = false;
-        "browser.newtabpage.activity-stream.feeds.telemetry" = false;
-        "browser.newtabpage.activity-stream.telemetry" = false;
-
-        # HTTPS-only
-        "dom.security.https_only_mode" = true;
 
         # Anti-fingerprinting
         "privacy.resistFingerprinting" = true;
