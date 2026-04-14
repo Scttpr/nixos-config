@@ -63,39 +63,22 @@
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "rtk": "rtk",
-        "spec-kit": "spec-kit"
+        "rtk": "rtk"
       }
     },
     "rtk": {
       "flake": false,
       "locked": {
-        "lastModified": 1774440750,
-        "narHash": "sha256-QkAtxSpMyjbscQgSUWks0aIkWaAYXgY6c9qM3sdPN+0=",
+        "lastModified": 1776104369,
+        "narHash": "sha256-QmjuAFyM4Bgl1ZY4SrWijSuiQvusZ5+9aq4lvLMnUF4=",
         "owner": "rtk-ai",
         "repo": "rtk",
-        "rev": "a00560aa05641b7b1902487d3d2e551bc7f9f773",
+        "rev": "a69935746172d913fcbd282d720d2daf5025e5e9",
         "type": "github"
       },
       "original": {
         "owner": "rtk-ai",
         "repo": "rtk",
-        "type": "github"
-      }
-    },
-    "spec-kit": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1775255704,
-        "narHash": "sha256-jADNe95w+UgVYlQaQlcl6GlKGgUUhKtz5s/xVOOwYcg=",
-        "owner": "github",
-        "repo": "spec-kit",
-        "rev": "94ba857b78074024f095b08b45802e17d2bff653",
-        "type": "github"
-      },
-      "original": {
-        "owner": "github",
-        "repo": "spec-kit",
         "type": "github"
       }
     }

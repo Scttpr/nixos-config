@@ -19,14 +19,9 @@
       flake = false;
     };
 
-    spec-kit = {
-      url = "github:github/spec-kit";
-      flake = false;
-    };
-
   };
 
-  outputs = { self, nixpkgs, home-manager, firefox-addons, rtk, spec-kit, ... }:
+  outputs = { self, nixpkgs, home-manager, firefox-addons, rtk, ... }:
   let
     system = "x86_64-linux";
     user = "scttpr";
@@ -39,51 +34,6 @@
       cargoLock.lockFile = "${rtk}/Cargo.lock";
       doCheck = false;
     };
-
-    specify = pkgs.python3Packages.buildPythonApplication {
-      pname = "specify-cli";
-      version = "unstable";
-      src = spec-kit;
-      pyproject = true;
-      build-system = [ pkgs.python3Packages.hatchling ];
-      dependencies = with pkgs.python3Packages; [
-        typer
-        click
-        rich
-        platformdirs
-        readchar
-        pyyaml
-        packaging
-        pathspec
-        json5
-      ];
-      doCheck = false;
-    };
-
-    flakePath = "/home/${user}/.config/nixos";
-
-    vibe-init = pkgs.writeShellScriptBin "vibe-init" ''
-      LANG="$1"
-      DIR="''${2:-.}"
-
-      if [ -z "$LANG" ]; then
-        SHELL_REF="vibecoding"
-      else
-        SHELL_REF="vibecoding-$LANG"
-      fi
-
-      mkdir -p "$DIR"
-      echo "use flake \"${flakePath}#$SHELL_REF\"" > "$DIR/.envrc"
-      ${pkgs.direnv}/bin/direnv allow "$DIR"
-      echo "$SHELL_REF configured in $DIR"
-    '';
-
-    vibecodingPackages = with pkgs; [
-      direnv
-      nix-direnv
-      specify
-      vibe-init
-    ];
 
     shellConfigs = {
 
@@ -235,17 +185,6 @@
 
     };
 
-    vibeShells = builtins.listToAttrs (map (name: {
-      name = "vibecoding-${name}";
-      value = let cfg = shellConfigs.${name}; in cfg // {
-        packages = vibecodingPackages ++ cfg.packages;
-      };
-    }) (builtins.attrNames shellConfigs));
-
-    allShells = shellConfigs // {
-      vibecoding = { packages = vibecodingPackages; };
-    } // vibeShells;
-
   in
   {
     nixosModules.hardening = import ./modules/hardening.nix;
@@ -274,6 +213,6 @@
 
     devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
       shellHook = ''echo "${name} shell loaded"'';
-    })) allShells;
+    })) shellConfigs;
   };
 }
