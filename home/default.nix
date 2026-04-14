@@ -9,7 +9,6 @@
     ./wofi.nix
     ./mpv.nix
     ./hyprlock.nix
-    ./hyprpaper.nix
     ./firefox.nix
     ./shell.nix
     ./git.nix
