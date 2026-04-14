@@ -7,7 +7,7 @@ Follows nixpkgs-unstable. Wayland-first (Hyprland), monochrome aesthetic.
 
 ```
 flake.nix                           Flake entry point, dev shells, custom packages
-hosts/nixos/
+hosts/p16s/
   configuration.nix                 Boot, locale, GC, earlyoom, user account
   hardware-configuration.nix        Generated hardware scan (LUKS, AMD)
   hardware.nix                      GPU, bluetooth, TLP power management, SSD TRIM
@@ -57,18 +57,21 @@ nix develop .#llm           # Local AI (ollama, aichat, python3, uv)
 
 This config is designed for a single machine. To adapt it:
 
-1. Replace `scttpr` with your username in `flake.nix`, `home/default.nix`, `home/claude.nix`, and `hosts/nixos/configuration.nix`
-2. Replace `hardware-configuration.nix` with your own (`nixos-generate-config`)
-3. Replace USBGuard rules in `hosts/nixos/usbguard.nix` with your device hashes (`usbguard generate-policy`)
-4. Update WireGuard config in `hosts/nixos/networking.nix` with your VPN credentials
-5. Update monitor config in `home/hyprland.nix` for your displays
-6. Update git identity in `home/git.nix`
+1. Change `user` in `flake.nix` (single variable, propagated everywhere)
+2. Rename `hosts/p16s/` to your machine and update the `nixosConfigurations` key in `flake.nix`
+3. Replace `hardware-configuration.nix` with your own (`nixos-generate-config`)
+4. Replace USBGuard rules in `hosts/p16s/usbguard.nix` (`usbguard generate-policy`)
+5. Update WireGuard config in `hosts/p16s/networking.nix`
+6. Update monitor config in `home/hyprland.nix`
+7. Update git identity in `home/git.nix`
 
 ## Usage
 
 ```sh
-sudo nixos-rebuild switch --flake .         # Apply configuration
-sudo nixos-rebuild dry-build --flake .      # Verify without applying
+sudo nixos-rebuild switch --flake .#p16s       # Apply configuration
+sudo nixos-rebuild dry-build --flake .#p16s    # Verify without applying
+nix flake check                                 # Validate flake
+nix fmt                                         # Format nix files
 ```
 
 ## License

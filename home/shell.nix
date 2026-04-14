@@ -10,7 +10,7 @@
     historyFileSize = 50000;
     shellOptions = [ "histappend" "cmdhist" ];
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#nixos";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#p16s";
 
       # eza
       ls = "eza";

@@ -3,7 +3,7 @@
 {
   # ── Network ──
   networking = {
-    hostName = "nixos";
+    hostName = "p16s";
     networkmanager = {
       enable = true;
       wifi.macAddress = "stable";

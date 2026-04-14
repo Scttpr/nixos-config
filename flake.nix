@@ -248,11 +248,11 @@
 
   in
   {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.p16s = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit user; };
       modules = [
         { nixpkgs.hostPlatform = system; }
-        ./hosts/nixos/configuration.nix
+        ./hosts/p16s/configuration.nix
 
         home-manager.nixosModules.home-manager
         {
@@ -267,7 +267,7 @@
 
     formatter.${system} = pkgs.nixfmt-rfc-style;
 
-    checks.${system}.build = self.nixosConfigurations.nixos.config.system.build.toplevel;
+    checks.${system}.build = self.nixosConfigurations.p16s.config.system.build.toplevel;
 
     devShells.${system} = builtins.mapAttrs (name: attrs: pkgs.mkShell (attrs // {
       shellHook = ''echo "${name} shell loaded"'';
