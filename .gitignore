@@ -1,0 +1,10 @@
+result
+.claude/
+docs/
+todo.txt
+wallpaper.png
+*.md
+!README.md
+
+# FIDO2 pam-u2f mapping — deployed out-of-band to /var/lib/u2f/
+hosts/p16s/u2f-mappings
